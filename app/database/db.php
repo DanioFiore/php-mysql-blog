@@ -81,4 +81,57 @@ function selectOne($table_name, $conditions = []) {
   return $records;
 }
 
+function create($table_name, $data) {
+  global $conn;
+
+  $sql = "INSERT INTO $table_name SET ";
+  $i = 0;
+  foreach ($data as $key => $value) {
+    if ($i === 0) {
+      $sql .= "$key=?";
+    } else {
+      $sql .= ", $key=?";
+    }
+    $i++;
+  }
+
+  $statement = executeQuery($sql, $data);
+  $id = $statement->insert_id;
+
+  return $id;
+}
+
+function update($table_name, $record_id, $data) {
+  global $conn;
+
+  $sql = "UPDATE $table_name SET ";
+  $i = 0;
+  foreach ($data as $key => $value) {
+    if ($i === 0) {
+      $sql .= "$key=?";
+    } else {
+      $sql .= ", $key=?";
+    }
+    $i++;
+  }
+
+  $sql .= " WHERE id=?";
+  // add the id to data array to update the correct record (if the id of the record is not included in the data array). This is to respect the bind_params.
+  $data['id'] = $record_id;
+  $statement = executeQuery($sql, $data);
+
+  // if the query pass successfully, return the number of affected rows, else return -1
+  return $statement->affected_rows;
+}
+
+function delete($table_name, $record_id) {
+  global $conn;
+
+  $sql = "DELETE FROM $table_name WHERE id=?";
+  $statement = executeQuery($sql, ['id' => $record_id]);
+
+  // if the query pass successfully, return the number of affected rows, else return -1
+  return $statement->affected_rows;
+}
+
 ?>
