@@ -6,6 +6,7 @@ services:
     container_name: php-web
     volumes:
       - ./:/var/www/html
+      - ./apache.conf:/etc/apache2/conf-available/servername.conf
     ports:
       - "8080:80"
     depends_on:
