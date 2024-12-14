@@ -1,3 +1,5 @@
+<?php include("path.php"); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +23,7 @@
 
 <body>
   <!-- HEADER -->
-  <?php include("app/includes/header.php") ?>
+  <?php include(ROOT_PATH . "/app/includes/header.php") ?>
 
   <div class="auth-content">
 
@@ -39,7 +41,7 @@
       <div>
         <button type="submit" name="login-btn" class="btn btn-big">Login</button>
       </div>
-      <p>Or <a href="register.html">Sign Up</a></p>
+      <p>Or <a href="<?php echo BASE_URL . "register.php" ?>">Sign Up</a></p>
     </form>
 
   </div>

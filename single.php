@@ -1,3 +1,5 @@
+<?php include("path.php"); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,7 +29,7 @@
   </script>
 
   <!-- HEADER -->
-  <?php include("app/includes/header.php") ?>
+  <?php include(ROOT_PATH . "/app/includes/header.php") ?>
 
   <!-- Page Wrapper -->
   <div class="page-wrapper">
@@ -160,9 +162,7 @@
   <!-- // Page Wrapper -->
 
   <!-- FOOTER -->
-  <?php include("app/includes/footer.php") ?>
-
-
+  <?php include(ROOT_PATH . "/app/includes/footer.php") ?>
 
   <!-- JQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
