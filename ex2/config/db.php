@@ -1,10 +1,10 @@
 <?php
 
 class Database {
-  private $host = "localhost";
+  private $host = "db";
   private $db_name = "blog-mvc";
   private $username = "root";
-  private $password = "";
+  private $password = "root";
   public $conn;
 
   public function __construct() {
