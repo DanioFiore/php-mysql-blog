@@ -4,6 +4,7 @@ include(ROOT_PATH . "/utilities.php");
 include(ROOT_PATH . "/app/helpers/validators/validateUser.php");
 
 // create variables to return the data from the form when validaiton fails, so the user can see the data that they entered
+$errors = array();
 $username = '';
 $email = '';
 $password = '';
