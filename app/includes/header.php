@@ -7,18 +7,24 @@
     <li><a href="<?php echo BASE_URL . "index.php" ?>">Home</a></li>
     <li><a href="#">About</a></li>
     <li><a href="#">Services</a></li>
-    <!-- <li><a href="#">Sign Up</a></li>
-    <li><a href="#">Login</a></li> -->
-    <li>
-      <a href="#">
-        <i class="fa fa-user"></i>
-        Awa Melvine
-        <i class="fa fa-chevron-down" style="font-size: .8em;"></i>
-      </a>
-      <ul>
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#" class="logout">Logout</a></li>
-      </ul>
-    </li>
+
+    <!-- TO HAVE ACCESS TO $_SESSION WE NEED TO STARTING IT. WE DO THAT IN db.php FILE THAT IS INCLUDED IN index.php AND THIS FILE IS INCLUDED IN IT -->
+    <?php if (isset($_SESSION['id'])): ?>
+      <li>
+        <a href="#">
+          <i class="fa fa-user"></i>
+          <?php echo $_SESSION['username']; ?>
+          <i class="fa fa-chevron-down" style="font-size: .8em;"></i>
+        </a>
+        <ul>
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#" class="logout">Logout</a></li>
+        </ul>
+      </li>
+    <?php else: ?>
+      <li><a href="#">Sign Up</a></li>
+      <li><a href="#">Login</a></li>
+    <?php endif; ?>
+
   </ul>
 </header>

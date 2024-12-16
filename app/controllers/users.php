@@ -23,6 +23,17 @@ if (isset($_POST['register-btn'])) {
   
     $user_id = create('users', $_POST);
     $user = selectOne('users', ['id' => $user_id]);
+
+    // logging in the user, we can access to the $_SESSION because we have started it in db.php and we have included it here
+    $_SESSION['id'] = $user['id'];
+    $_SESSION['username'] = $user['username'];
+    $_SESSION['admin'] = $user['admin'];
+    $_SESSION['msg'] = 'You are now logged in!';
+    $_SESSION['type'] = 'success';
+    
+    // redirect to the home page
+    header('location: ' . BASE_URL . '/index.php');
+    exit(); // end the function script HERE
   } else {
     $username = $_POST['username'];
     $email = $_POST['email'];

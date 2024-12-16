@@ -1,4 +1,6 @@
 <?php
+// session start allows us to access the session variables and login the user. We need to start the session in every file that we want to access the session variables but when we try to login, we will use the db, so we start the session in the db.php file to avoid import it in a lot of files
+session_start();
 require('connect.php');
 
 function executeQuery($sql, $data) {
