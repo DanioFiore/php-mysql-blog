@@ -9,7 +9,23 @@ $username = '';
 $email = '';
 $password = '';
 $passwordConf = '';
+$table = 'users'; // this is a users controller, so define the table name instead of hardcoding
 
+function loginUser($user) {
+  $_SESSION['id'] = $user['id'];
+  $_SESSION['username'] = $user['username'];
+  $_SESSION['admin'] = $user['admin'];
+  $_SESSION['msg'] = 'You are now logged in!';
+  $_SESSION['type'] = 'success';
+
+  // redirect the user after logging in
+  if ($_SESSION['admin']) {
+    header('location: ' . BASE_URL . 'admin/dashboard.php');
+  } else {
+    header('location: ' . BASE_URL . 'index.php');
+  }
+}
+// REGISTER USER
 // from the front-end form of register.php we receive the data from the form based on the name attribute of the input fields, so here if we have a $_POST with register-btn key, we know that the form was submitted from register-btn
 if (isset($_POST['register-btn'])) {
   // validation
@@ -21,23 +37,11 @@ if (isset($_POST['register-btn'])) {
     $_POST['admin'] = 0;
     $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
   
-    $user_id = create('users', $_POST);
-    $user = selectOne('users', ['id' => $user_id]);
+    $user_id = create($table, $_POST);
+    $user = selectOne($table, ['id' => $user_id]);
 
-    // logging in the user, we can access to the $_SESSION because we have started it in db.php and we have included it here
-    $_SESSION['id'] = $user['id'];
-    $_SESSION['username'] = $user['username'];
-    $_SESSION['admin'] = $user['admin'];
-    $_SESSION['msg'] = 'You are now logged in!';
-    $_SESSION['type'] = 'success';
-
-    // redirect the user after logging in
-    if ($_SESSION['admin']) {
-      header('location: ' . BASE_URL . 'admin/dashboard.php');
-    } else {
-      header('location: ' . BASE_URL . 'index.php');
-    }
-
+    // logging in the user
+    loginUser($user);
     exit(); // end the function script HERE
   } else {
     $username = $_POST['username'];
@@ -46,4 +50,27 @@ if (isset($_POST['register-btn'])) {
     $passwordConf = $_POST['passwordConf'];
   }
 }
+
+// LOGIN USER
+if (isset($_POST['login-btn'])) {
+  // this is in validateUser.php
+  $errors = validateLogin($_POST);
+
+  if (empty($errors)) {
+    $user = selectOne($table, ['email' => $_POST['email']]);
+
+    if ($user && password_verify($_POST['password'], $user['password'])) {
+      // logging in the user
+      loginUser($user);
+      exit(); // end the function script HERE
+    } else {
+      array_push($errors, 'Wrong credentials');
+    }
+  }
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+}
+
+
+
 ?>
