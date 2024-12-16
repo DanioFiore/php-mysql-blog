@@ -30,9 +30,14 @@ if (isset($_POST['register-btn'])) {
     $_SESSION['admin'] = $user['admin'];
     $_SESSION['msg'] = 'You are now logged in!';
     $_SESSION['type'] = 'success';
-    
-    // redirect to the home page
-    header('location: ' . BASE_URL . '/index.php');
+
+    // redirect the user after logging in
+    if ($_SESSION['admin']) {
+      header('location: ' . BASE_URL . 'admin/dashboard.php');
+    } else {
+      header('location: ' . BASE_URL . 'index.php');
+    }
+
     exit(); // end the function script HERE
   } else {
     $username = $_POST['username'];
