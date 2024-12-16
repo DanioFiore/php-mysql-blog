@@ -1,0 +1,15 @@
+{
+    "name": "daniofiore/blog-mvc-php",
+    "autoload": {
+        "psr-4": {
+            "Daniofiore\\BlogMvcPhp\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Danio",
+            "email": "daniofioredev@gmail.com"
+        }
+    ],
+    "require": {}
+}

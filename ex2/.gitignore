@@ -1,0 +1,34 @@
+# Composer
+/vendor/
+/composer.lock
+
+# PHPStorm
+/.idea/
+
+# Laravel specific
+/.env
+/.env.backup
+/.env.local
+/.env.development
+/.env.testing
+/.env.production
+/.env.example
+/storage/*.key
+/storage/logs/*.log
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*
+/bootstrap/cache/*.php
+
+# Node
+/node_modules/
+/npm-debug.log
+/yarn-error.log
+
+# Vagrant
+/.vagrant/
+
+# Other
+.DS_Store
+Thumbs.db
