@@ -1,6 +1,6 @@
 <?php
 
-require_once BASE_DIR . '/bootstrap.php';
+require_once(ROOT_PATH . '/bootstrap.php');
 
 class Model {
   protected $connection;

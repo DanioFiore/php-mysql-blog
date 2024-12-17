@@ -22,10 +22,11 @@
     </div>
     <div>
       <label for="category">Category:</label>
-      <select id="category" name="category" required>
-        <option value="news">News</option>
-        <option value="events">Events</option>
-        <option value="updates">Updates</option>
+      <select id="category" name="category_id">
+        <option value="">Select a category</option>
+        <option value="1">News</option>
+        <option value="2">Events</option>
+        <option value="3">Updates</option>
       </select>
     </div>
     <div>

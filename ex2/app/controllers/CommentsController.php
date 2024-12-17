@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/components/Controller.php');
+require_once(ROOT_PATH . '/app/components/Controller.php');
 
 class CommentsController extends Controller {
   

@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . '/components/Model.php');
+require_once(ROOT_PATH . '/app/components/Model.php');
 
 class Post extends Model
 {

@@ -18,10 +18,11 @@ class Validator {
     foreach ($rules as $field => $ruleSet) {
       $value = $this->data[$field] ?? null;
       $rulesArray = explode('|', $ruleSet);
+
       foreach ($rulesArray as $rule) {
 
         // Check if nullable is in the rules
-        if (in_array('nullable', $rulesArray) && is_null($value)) {
+        if (in_array('nullable', $rulesArray) && !$value) {
           // If nullable and the value is null, skip all other rules
           continue;
         }
