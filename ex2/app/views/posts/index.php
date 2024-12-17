@@ -5,7 +5,7 @@
   <?php unset($_SESSION['message']); ?>
   <?php unset($_SESSION['status']); ?>
 <?php endif; ?>
-<div>
+<div style="text-align: right;">
   <a href="/admin/posts/create" class="btn btn-primary">Create Post</a>
   <a href="/admin/categories/create" class="btn btn-primary">Create Category</a>
 </div>

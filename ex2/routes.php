@@ -8,6 +8,7 @@ Route::get('posts/show', 'PostsController@show');
 Route::post('admin/posts/store', 'AdminsController@store');
 
 // pages
+Route::get('', 'HomeController@index_view');
 Route::get('admin/posts/index', 'PostsController@index_view');
 Route::get('admin/posts/create', 'AdminsController@create_post_view');
 
