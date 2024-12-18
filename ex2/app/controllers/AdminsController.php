@@ -36,7 +36,7 @@ class AdminsController extends Controller {
         $create_post->insert($_POST);
         $_SESSION['message'] = 'Post created successfully';
         $_SESSION['status'] = 'ok';
-        $this->redirect('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/index.php']);
+        $this->redirect('/admin/posts/index');
       } else {
         $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/create.php']);
         return;
