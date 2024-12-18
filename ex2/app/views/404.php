@@ -1,33 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 Not Found</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-    }
-    h1 {
-      font-size: 50px;
-    }
-    p {
-      font-size: 20px;
-    }
-    a {
-      color: #007BFF;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <h1>404</h1>
-  <p>Sorry, the page you are looking for could not be found.</p>
-  <p><a href="/">Go to Homepage</a></p>
-</body>
-</html>
+<div class="wrapper-not-found">
+  <h2 class="title-not-found">404</h2>
+  <p class="paragraph-not-found">Sorry, the page you are looking for could not be found.</p>
+  <p class="paragraph-not-found"><a class="anchor-not-found" href="/">Go to Homepage</a></p>
+</div>

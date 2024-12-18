@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $title ?? 'Default Title'; ?></title>
+  <title><?php echo $title ?? 'Blog'; ?></title>
   <link rel="stylesheet" href="<?php echo ROOT_PATH . '/public/css/style.css'; ?>">
 </head>
 <body>

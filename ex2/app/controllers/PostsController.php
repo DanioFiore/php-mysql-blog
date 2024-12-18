@@ -8,7 +8,7 @@ class PostsController extends Controller {
   public function index_view() {
     $posts = new Post;
     $posts = $posts->all();
-    $this->render('posts/index', ['posts' => $posts]);
+    $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/index.php', 'posts' => $posts]);
   }
 
   public function index() {

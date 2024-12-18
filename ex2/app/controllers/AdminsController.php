@@ -8,7 +8,7 @@ require_once(ROOT_PATH . '/app/models/Post.php');
 class AdminsController extends Controller {
 
   public function create_post_view() {
-    $this->render('admin/posts/create');
+    $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/create.php']);
   }
 
   public function store() {
@@ -28,7 +28,7 @@ class AdminsController extends Controller {
         
         if (!$validator->validate($rules)) {
           $errors = $validator->errors();
-          $this->render('admin/posts/create', ['status' => 'ko', 'errors' => $errors]);
+          $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/create.php', 'status' => 'ko', 'errors' => $errors]);
           return;
         }
 
@@ -36,13 +36,13 @@ class AdminsController extends Controller {
         $create_post->insert($_POST);
         $_SESSION['message'] = 'Post created successfully';
         $_SESSION['status'] = 'ok';
-        $this->redirect('/admin/posts/index');
+        $this->redirect('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/index.php']);
       } else {
-        $this->render('admin/posts/create');
+        $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/create.php']);
         return;
       }
     } catch (Exception $e) {
-      $this->render('posts/index', ['status' => 'ko', 'message' => $e->getMessage()]);
+      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/create.php', 'status' => 'ko', 'message' => $e->getMessage()]);
     }
   }
 }
