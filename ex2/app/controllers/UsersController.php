@@ -12,20 +12,20 @@ class UsersController extends Controller {
   }
 
   public function loginView() {
-    $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/login.php']);
+    $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/login.php', 'email' => '', 'password' => '']);
   }
 
-  public function login($user) {
-    $_SESSION['id'] = $user['id'];
-    $_SESSION['email'] = $user['email'];
-    $_SESSION['admin'] = $user['admin'];
+  public function loginUser($user) {
+    $_SESSION['id'] = $user->id;
+    $_SESSION['email'] = $user->email;
+    $_SESSION['admin'] = $user->admin;
     $_SESSION['msg'] = 'You are now logged in!';
     $_SESSION['type'] = 'success';
 
     $this->redirect('/');
   }
 
-  public function logout() {
+  public function logoutUser() {
     $_SESSION['id'] = null;
     $_SESSION['email'] = null;
     $_SESSION['admin'] = null;
@@ -33,6 +33,26 @@ class UsersController extends Controller {
     $_SESSION['type'] = 'success';
 
     $this->redirect('/');
+  }
+
+  public function login() {
+    try {
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $user = new User();
+        $user = $user->where('email', $_POST['email'])->first();
+        if ($user && password_verify($_POST['password'], $user->password)) {
+          unset($_POST['login-btn']);
+          $this->loginUser($user);
+        } else {
+          $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/login.php', 'status' => 'ko', 'message' => 'Invalid email or password', 'email' => $_POST['email'], 'password' => '']);
+        }
+      } else {
+        $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/login.php']);
+      }
+    } catch (Exception $e) {
+      echo $e->getMessage();
+      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/login.php', 'status' => 'ko', 'message' => $e->getMessage()]);
+    }
   }
 
   public function store() {
@@ -58,7 +78,7 @@ class UsersController extends Controller {
         unset($_POST['signup-btn'], $_POST['passwordConf']);
         $user = new User();
         $create_user = $user->insert($_POST);
-        $this->login($create_user);
+        $this->loginUser($create_user);
       } else {
         $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/signup.php']);
         exit();

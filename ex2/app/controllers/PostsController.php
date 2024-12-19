@@ -19,12 +19,10 @@ class PostsController extends Controller {
 
   public function showUserPosts() {
     try {
-      print_r($_SESSION);
       $posts = new Post;
       // TODO: check if works
       $posts = $posts->where('user_id', $_SESSION['id'])->get();
-      print_r($posts);
-      // $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/index.php', 'posts' => $posts]);
+      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/index.php', 'posts' => $posts]);
     } catch (Exception $e) {
       echo $e->getMessage();
       $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/index.php', 'posts' => [], 'status' => 'ko', 'message' => $e->getMessage()]);

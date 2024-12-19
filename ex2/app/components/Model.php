@@ -49,6 +49,18 @@ class Model {
   }
 
   /**
+   * Take the first record.
+   */
+  public function first() {
+    $stmt = $this->connection->prepare($this->query);
+    foreach ($this->bindings as $key => $value) {
+      $stmt->bindValue(":{$key}", $value);
+    }
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_OBJ);
+  }
+
+  /**
    * Insert new record.
    */
   public function insert(array $data) {
