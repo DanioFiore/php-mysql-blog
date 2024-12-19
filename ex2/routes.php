@@ -2,15 +2,25 @@
 
 require_once __DIR__ . '/app/components/Route.php';
 
-// Define your routes
-Route::get('posts', 'PostsController@index');
+// Routes
+
+// posts
+Route::get('user/posts', 'PostsController@showUserPosts');
 Route::get('posts/show', 'PostsController@show'); 
+Route::delete('posts', 'PostsController@destroy');
 Route::post('admin/posts/store', 'AdminsController@store');
 
+// users
+Route::post('users/signup', 'UsersController@store');
+Route::get('users/logout', 'UsersController@logout');
+
 // pages
-Route::get('', 'HomeController@index_view');
-Route::get('admin/posts/index', 'PostsController@index_view');
-Route::get('admin/posts/create', 'AdminsController@create_post_view');
+Route::get('posts', 'PostsController@index');
+Route::get('', 'HomeController@indexView');
+Route::get('admin/posts/index', 'PostsController@index');
+Route::get('admin/posts/create', 'AdminsController@createPostView');
+Route::get('users/signup', 'UsersController@signupView'); 
+Route::get('users/login', 'UsersController@loginView');
 
 Route::get('healthcheck', function() {
   echo 'OK';

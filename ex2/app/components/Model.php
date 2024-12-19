@@ -5,11 +5,29 @@ require_once(ROOT_PATH . '/bootstrap.php');
 class Model {
   protected $connection;
   protected $table;
+  protected $query;
+  protected $bindings = [];
   protected $primaryKey = 'id';
 
   public function __construct() {
     $db = new Database();
     $this->connection = $db->conn;
+    $this->query = "SELECT * FROM {$this->table}";
+  }
+
+  public function where($column, $value) {
+    $this->query .= " WHERE {$column} = :{$column}";
+    $this->bindings[$column] = $value;
+    return $this;
+  }
+
+  public function get() {
+    $stmt = $this->connection->prepare($this->query);
+    foreach ($this->bindings as $key => $value) {
+      $stmt->bindValue(":{$key}", $value);
+    }
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
   }
 
   /**
@@ -39,11 +57,21 @@ class Model {
     $stmt = $this->connection->prepare("INSERT INTO {$this->table} ($columns) VALUES ($placeholders)");
 
     foreach ($data as $key => $value) {
-        $stmt->bindValue(":$key", $value);
+      $stmt->bindValue(":$key", $value);
     }
 
-    return $stmt->execute();
+    $stmt->execute();
+
+    $lastInsertId = $this->connection->lastInsertId();
+    $stmt = $this->connection->prepare("SELECT * FROM {$this->table} WHERE {$this->primaryKey} = :id");
+    $stmt->bindValue(':id', $lastInsertId);
+    $stmt->execute();
+
+    $record = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    return $record ?: null;
   }
+
 
   /**
    * Update record.

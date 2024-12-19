@@ -1,14 +1,38 @@
 <?php
 
 require_once(ROOT_PATH . '/app/components/Controller.php');
+require_once(ROOT_PATH . '/app/components/Validator.php');
+require_once(ROOT_PATH . '/app/models/User.php');
+require_once(ROOT_PATH . '/bootstrap.php');
+
 
 class UsersController extends Controller {
-  public function signup_view() {
-    $this->view('base_page', ['content' => ROOT_PATH . '/app/views/users/signup.php']);
+  public function signupView() {
+    $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/signup.php', 'username' => '', 'email' => '', 'password' => '', 'passwordConf' => '']);
   }
 
-  public function login_view() {
-    $this->view('base_page', ['content' => ROOT_PATH . '/app/views/users/login.php']);
+  public function loginView() {
+    $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/login.php']);
+  }
+
+  public function login($user) {
+    $_SESSION['id'] = $user['id'];
+    $_SESSION['email'] = $user['email'];
+    $_SESSION['admin'] = $user['admin'];
+    $_SESSION['msg'] = 'You are now logged in!';
+    $_SESSION['type'] = 'success';
+
+    $this->redirect('/');
+  }
+
+  public function logout() {
+    $_SESSION['id'] = null;
+    $_SESSION['email'] = null;
+    $_SESSION['admin'] = null;
+    $_SESSION['msg'] = 'You are now logged out!';
+    $_SESSION['type'] = 'success';
+
+    $this->redirect('/');
   }
 
   public function store() {
@@ -19,26 +43,29 @@ class UsersController extends Controller {
         $rules = [
           'email' => 'required|email|unique:users',
           'password' => 'required|string',
+          'passwordConf' => 'required|same:password',
           'admin' => 'nullable|integer',
         ];
         
         if (!$validator->validate($rules)) {
           $errors = $validator->errors();
-          $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/signup.php', 'status' => 'ko', 'errors' => $errors]);
-          return;
+          $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/signup.php', 'status' => 'ko', 'errors' => $errors, 'email' => $_POST['email'], 'password' => $_POST['password'], 'passwordConf' => $_POST['passwordConf']]);
+          exit();
         }
 
-        $create_user = new User();
-        $create_user->insert($_POST);
-        $_SESSION['message'] = 'Successfully signed up';
-        $_SESSION['status'] = 'ok';
-        $this->redirect('');
+        // hash the password
+        $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        unset($_POST['signup-btn'], $_POST['passwordConf']);
+        $user = new User();
+        $create_user = $user->insert($_POST);
+        $this->login($create_user);
       } else {
-        $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/signup.php']);
-        return;
+        $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/signup.php']);
+        exit();
       }
     } catch (Exception $e) {
-      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/signup.php', 'status' => 'ko', 'message' => $e->getMessage()]);
+      echo $e->getMessage();
+      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/signup.php', 'status' => 'ko', 'message' => $e->getMessage()]);
     }
   }
 }

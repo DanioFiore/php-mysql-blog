@@ -163,9 +163,9 @@ class Validator {
   /**
    * Rule: unique value in the DB.
    */
-  private function validateUnique($field, $value, $table, $column) {
+  private function validateUnique($field, $value, $table) {
     $db = new Database();
-    $stmt = $db->conn->prepare("SELECT COUNT(*) FROM $table WHERE $column = :value");
+    $stmt = $db->conn->prepare("SELECT COUNT(*) FROM $table WHERE $field = :value");
     $stmt->bindParam(':value', $value);
     $stmt->execute();
     $count = $stmt->fetchColumn();
@@ -176,6 +176,15 @@ class Validator {
   }
 
   private function validateNullable($field, $value) {
-      // nothing to do
+    // nothing to do
+  }
+
+  /**
+   * Rule: same value.
+   */
+  private function validateSame($field, $value, $otherField) {
+      if (!isset($this->data[$otherField]) || $value !== $this->data[$otherField]) {
+          $this->addError($field, "The field $field must match the $otherField field.");
+      }
   }
 }

@@ -1,81 +1,51 @@
 <?php
-
 class Route {
   private static $routes = [];
 
-  /**
-   * Define a GET route.
-   *
-   * @param string $uri The URI of the route.
-   * @param callable|string $action The controller method or callback function.
-   */
-  public static function get($uri, $action)
-  {
+  public static function get($uri, $action) {
     self::addRoute('GET', $uri, $action);
   }
 
-  /**
-   * Define a POST route.
-   *
-   * @param string $uri The URI of the route.
-   * @param callable|string $action The controller method or callback function.
-   */
-  public static function post($uri, $action)
-  {
+  public static function post($uri, $action) {
     self::addRoute('POST', $uri, $action);
   }
 
-  /**
-   * Add a route to the route list.
-   *
-   * @param string $method The HTTP method (GET, POST, etc.).
-   * @param string $uri The URI of the route.
-   * @param callable|string $action The controller method or callback function.
-   */
-  private static function addRoute($method, $uri, $action)
-  {
+  public static function delete($uri, $action) {
+    self::addRoute('DELETE', $uri, $action);
+  }
+
+  private static function addRoute($method, $uri, $action) {
+    $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<\1>[a-zA-Z0-9_-]+)', trim($uri, '/'));
     self::$routes[] = [
       'method' => $method,
-      'uri' => trim($uri, '/'),
-      'action' => $action
+      'pattern' => '#^' . $pattern . '$#',
+      'action' => $action,
     ];
   }
 
-  /**
-   * Handle the incoming request.
-   */
-  public static function dispatch()
-  {
+  public static function dispatch() {
     $requestUri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
     $requestMethod = $_SERVER['REQUEST_METHOD'];
 
     foreach (self::$routes as $route) {
-      if ($route['method'] === $requestMethod && $route['uri'] === $requestUri) {
+      if ($route['method'] === $requestMethod && preg_match($route['pattern'], $requestUri, $matches)) {
+        array_shift($matches); // Remove the full match
+
         if (is_callable($route['action'])) {
-          // If the action is a closure or callable, execute it
-          return call_user_func($route['action']);
+          return call_user_func_array($route['action'], $matches);
         } elseif (is_string($route['action'])) {
-          // If the action is a string "Controller@method", resolve and call it
-          return self::callControllerMethod($route['action']);
+          return self::callControllerMethod($route['action'], $matches);
         }
       }
     }
 
-    // If no route is matched, send a 404 response
     http_response_code(404);
     include ROOT_PATH . '/app/views/404.php';
     exit();
   }
 
-  /**
-   * Call the specified controller method.
-   *
-   * @param string $action The controller and method in the format "Controller@method".
-   */
-  private static function callControllerMethod($action)
-  {
+  private static function callControllerMethod($action, $parameters = []) {
     list($controllerName, $method) = explode('@', $action);
-
     $controllerFile = __DIR__ . '/../controllers/' . $controllerName . '.php';
 
     if (file_exists($controllerFile)) {
@@ -83,7 +53,7 @@ class Route {
       $controller = new $controllerName();
 
       if (method_exists($controller, $method)) {
-        return $controller->$method();
+        return call_user_func_array([$controller, $method], $parameters);
       }
     }
 
