@@ -10,7 +10,8 @@ class PostsController extends Controller {
     try {
       $posts = new Post;
       $posts = $posts->all();
-      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/index.php', 'posts' => $posts]);
+
+      return $posts;
     } catch (Exception $e) {
       echo $e->getMessage();
       $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/index.php', 'posts' => [], 'status' => 'ko', 'message' => $e->getMessage()]);
@@ -44,13 +45,12 @@ class PostsController extends Controller {
     try {
       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST['user_id'] = $_SESSION['id'];
-        $_POST['category_id'] = $_POST['category_id'] ?: null;
         // Validate the data
         $validator = new Validator($_POST);
+        // TODO: images or image?
         $rules = [
           'title' => 'required|string|max:255',
           'content' => 'required|string',
-          'category_id' => 'nullable|integer',
           'images' => 'nullable|array',
         ];
         

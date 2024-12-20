@@ -7,18 +7,11 @@ require_once(ROOT_PATH . '/bootstrap.php');
 
 
 class UsersController extends Controller {
-  public function signupView() {
-    $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/signup.php', 'username' => '', 'email' => '', 'password' => '', 'passwordConf' => '']);
-  }
-
-  public function loginView() {
-    $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/login.php', 'email' => '', 'password' => '']);
-  }
 
   public function loginUser($user) {
-    $_SESSION['id'] = $user->id;
-    $_SESSION['email'] = $user->email;
-    $_SESSION['admin'] = $user->admin;
+    $_SESSION['id'] = is_array($user) ? $user['id'] : $user->id;
+    $_SESSION['email'] = is_array($user) ? $user['email'] : $user->email;
+    $_SESSION['admin'] = is_array($user) ? $user['admin'] : $user->admin;
     $_SESSION['msg'] = 'You are now logged in!';
     $_SESSION['type'] = 'success';
 

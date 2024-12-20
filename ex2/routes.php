@@ -13,16 +13,17 @@ Route::post('admin/posts/store', 'AdminsController@store');
 // users
 Route::post('users/signup', 'UsersController@store');
 Route::get('users/logout', 'UsersController@logoutUser');
+Route::post('users/login', 'UsersController@login');
 
 // pages
-Route::get('posts', 'PostsController@index');
-Route::get('', 'HomeController@indexView');
+Route::get('', 'SiteController@home');
+Route::get('posts', 'SiteController@indexPosts');
+Route::get('signup', 'SiteController@signup'); 
+Route::get('login', 'SiteController@login');
 Route::get('admin/posts/index', 'PostsController@index');
 Route::get('admin/posts/create', 'AdminsController@createPostView');
-Route::get('users/signup', 'UsersController@signupView'); 
-Route::get('users/login', 'UsersController@loginView');
-Route::post('users/login_user', 'UsersController@login');
 
+// TODO: to implement
 
 Route::get('healthcheck', function() {
   echo 'OK';

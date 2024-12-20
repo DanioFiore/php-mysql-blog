@@ -21,15 +21,6 @@
       <input type="file" id="images" name="images[]" multiple>
     </div>
     <div>
-      <label for="category">Category:</label>
-      <select id="category" name="category_id">
-        <option value="">Select a category</option>
-        <option value="1">News</option>
-        <option value="2">Events</option>
-        <option value="3">Updates</option>
-      </select>
-    </div>
-    <div>
       <button type="submit">Create Post</button>
     </div>
   </form>

@@ -1,6 +1,6 @@
 <div class="auth-content">
 
-  <form action="/users/login_user" method="POST">
+  <form action="/users/login" method="POST">
     <h2 class="form-title">Login</h2>
 
     <div>
@@ -14,7 +14,7 @@
     <div>
       <button type="submit" name="login-btn" class="btn btn-big">Login</button>
     </div>
-    <p>Or <a href="<?php echo BASE_URL . "/users/signup" ?>">Sign Up</a></p>
+    <p>Or <a href="<?php echo BASE_URL . "/signup" ?>">Sign Up</a></p>
   </form>
 
 </div>

@@ -17,6 +17,6 @@
     <div>
       <button type="submit" name="signup-btn" class="btn btn-big">Signup</button>
     </div>
-    <p>Or <a href="<?php echo BASE_URL . "/users/login" ?>">Sign In</a></p>
+    <p>Or <a href="<?php echo BASE_URL . "/login" ?>">Login</a></p>
   </form>
 </div>
