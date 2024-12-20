@@ -11,7 +11,6 @@ class UsersController extends Controller {
   public function loginUser($user) {
     $_SESSION['id'] = is_array($user) ? $user['id'] : $user->id;
     $_SESSION['email'] = is_array($user) ? $user['email'] : $user->email;
-    $_SESSION['admin'] = is_array($user) ? $user['admin'] : $user->admin;
     $_SESSION['msg'] = 'You are now logged in!';
     $_SESSION['type'] = 'success';
 
@@ -21,7 +20,6 @@ class UsersController extends Controller {
   public function logoutUser() {
     $_SESSION['id'] = null;
     $_SESSION['email'] = null;
-    $_SESSION['admin'] = null;
     $_SESSION['msg'] = 'You are now logged out!';
     $_SESSION['type'] = 'success';
 
@@ -57,12 +55,11 @@ class UsersController extends Controller {
           'email' => 'required|email|unique:users',
           'password' => 'required|string',
           'passwordConf' => 'required|same:password',
-          'admin' => 'nullable|integer',
         ];
         
         if (!$validator->validate($rules)) {
           $errors = $validator->errors();
-          $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/signup.php', 'status' => 'ko', 'errors' => $errors, 'email' => $_POST['email'], 'password' => $_POST['password'], 'passwordConf' => $_POST['passwordConf']]);
+          $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/signup.php', 'status' => 'ko', 'errors' => $errors, 'email' => $_POST['email'], 'password' => $_POST['password'], 'passwordConf' => $_POST['passwordConf']]);
           exit();
         }
 

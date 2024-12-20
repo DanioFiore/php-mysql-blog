@@ -22,4 +22,8 @@ class SiteController extends Controller {
     $posts = $postsController->index();
     $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/index.php', 'posts' => $posts]);
   }
+
+  public function createPost() {
+    $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/create.php', 'title' => '', 'content' => '', 'images' => []]);
+  }
 }

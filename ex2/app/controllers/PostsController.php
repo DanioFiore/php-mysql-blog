@@ -14,7 +14,7 @@ class PostsController extends Controller {
       return $posts;
     } catch (Exception $e) {
       echo $e->getMessage();
-      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/index.php', 'posts' => [], 'status' => 'ko', 'message' => $e->getMessage()]);
+      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/index.php', 'posts' => [], 'status' => 'ko', 'message' => $e->getMessage()]);
     }
   }
 
@@ -26,7 +26,7 @@ class PostsController extends Controller {
       $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/index.php', 'posts' => $posts]);
     } catch (Exception $e) {
       echo $e->getMessage();
-      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/index.php', 'posts' => [], 'status' => 'ko', 'message' => $e->getMessage()]);
+      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/index.php', 'posts' => [], 'status' => 'ko', 'message' => $e->getMessage()]);
     }
   }
 
@@ -37,7 +37,7 @@ class PostsController extends Controller {
       $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/show.php', 'post' => $post]);
     } catch (Exception $e) {
       echo $e->getMessage();
-      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/index.php', 'post' => [], 'status' => 'ko', 'message' => $e->getMessage()]);
+      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/index.php', 'post' => [], 'status' => 'ko', 'message' => $e->getMessage()]);
     }
   }
 
@@ -56,7 +56,7 @@ class PostsController extends Controller {
         
         if (!$validator->validate($rules)) {
           $errors = $validator->errors();
-          $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/create.php', 'status' => 'ko', 'errors' => $errors]);
+          $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/create.php', 'status' => 'ko', 'errors' => $errors]);
           return;
         }
 
@@ -66,11 +66,11 @@ class PostsController extends Controller {
         $_SESSION['status'] = 'ok';
         $this->redirect('/admin/posts/index');
       } else {
-        $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/create.php']);
+        $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/create.php']);
         return;
       }
     } catch (Exception $e) {
-      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/admin/posts/create.php', 'status' => 'ko', 'message' => $e->getMessage()]);
+      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/create.php', 'status' => 'ko', 'message' => $e->getMessage()]);
     }
   }
 
@@ -81,7 +81,7 @@ class PostsController extends Controller {
       }
     } catch (Exception $e) {
       echo $e->getMessage();
-      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/index.php', 'post' => [], 'status' => 'ko', 'message' => $e->getMessage()]);
+      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/create.php', 'post' => [], 'status' => 'ko', 'message' => $e->getMessage()]);
     }
   }
 
@@ -94,7 +94,7 @@ class PostsController extends Controller {
       $this->redirect('/posts');
     } catch (Exception $e) {
       echo $e->getMessage();
-      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/users/signup.php', 'status' => 'ko', 'message' => $e->getMessage()]);
+      $this->render('base_page', ['content' => ROOT_PATH . '/app/views/posts/index.php', 'status' => 'ko', 'message' => $e->getMessage()]);
     }
   }
 }
